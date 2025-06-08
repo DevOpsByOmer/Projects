@@ -1,7 +1,7 @@
 name: CI - Order Service
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # no indentation needed here; this enables manual trigger
   push:
     paths:
       - "apps/backend-api/order-service/**"
