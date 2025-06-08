@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    uses: ./.github/reusable/reusable-docker.yml
+    uses: DevOpsByOmer/Reusable-workflows/.github/workflows/reusable-docker.yml@main
 
     with:
       service_name: test-service

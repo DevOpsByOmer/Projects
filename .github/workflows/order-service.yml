@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    uses: DevOpsByOmer/Projects/.github/reusable/reusable-docker.yml@main
+    uses: DevOpsByOmer/Reusable-workflows/.github/workflows/reusable-docker.yml@main
     with:
       service_name: order-service
       dockerfile_path: apps/backend-api/order-service/Dockerfile
