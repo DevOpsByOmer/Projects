@@ -1,0 +1,17 @@
+name: CI - Order Service
+
+on:
+  push:
+    paths:
+      - "apps/order-service/**"
+    branches: [ main ]
+
+jobs:
+  build:
+    uses: ../../../../.github/workflows/reusable-docker.yml@main
+    with:
+      service_name: order-service
+      dockerfile_path: apps/order-service/Dockerfile
+      context: apps/order-service
+#uses: your-org/your-repo/.github/workflows/reusable-docker.yml@main
+
