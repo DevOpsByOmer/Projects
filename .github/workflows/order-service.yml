@@ -3,7 +3,7 @@ name: CI - Order Service
 on:
   push:
     paths:
-      - "apps/order-service/**"
+      - "apps/backend-api/order-service/**"
     branches: [ main ]
 
 jobs:
