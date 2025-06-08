@@ -15,6 +15,4 @@ jobs:
       service_name: order-service
       dockerfile_path: apps/backend-api/order-service/Dockerfile
       context: apps/backend-api/order-service
-    secrets:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    
