@@ -1,0 +1,12 @@
+name: Test Reusable
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: DevOpsByOmer/Projects/.github/reusable/reusable-docker.yml@main
+    with:
+      service_name: test-service
+      dockerfile_path: Dockerfile
+      context: .
