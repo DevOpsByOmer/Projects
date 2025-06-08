@@ -17,6 +17,9 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
     steps:
+      - name: List directory contents
+        run: ls -la ${{ inputs.context }}
+
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -26,4 +29,3 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -t ${{ inputs.service_name }} -f ${{ inputs.dockerfile_path }} ${{ inputs.context }}
-
