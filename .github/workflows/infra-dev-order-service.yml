@@ -33,6 +33,11 @@ jobs:
         working-directory: terraform/envs/dev
         run: terraform plan
 
+      - name: Terraform Plan
+        working-directory: terraform/envs/dev
+        run: terraform apply -auto-aaprove
+     
+
       
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
