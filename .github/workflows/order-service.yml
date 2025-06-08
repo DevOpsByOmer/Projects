@@ -6,11 +6,11 @@ on:
     paths:
       - "apps/backend-api/order-service/**"
     branches:
-      - main
+      - master  # or 'main' if that's your branch
 
 jobs:
   build:
-    uses: ./.github/reusable/reusable-docker.yml
+    uses: DevOpsByOmer/Projects/.github/reusable/reusable-docker.yml@main
     with:
       service_name: order-service
       dockerfile_path: apps/backend-api/order-service/Dockerfile
