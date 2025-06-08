@@ -35,7 +35,7 @@ jobs:
 
       - name: Terraform Plan
         working-directory: terraform/envs/dev
-        run: terraform apply -auto-aaprove
+        run: terraform apply -auto-approve
      
 
       
