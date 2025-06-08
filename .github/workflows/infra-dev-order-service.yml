@@ -18,19 +18,19 @@ jobs:
           terraform_version: 1.5.0  # specify your required version
 
       - name: Terraform Init
-        working-directory: terraform/env/dev
+        working-directory: terraform/envs/dev
         run: terraform init
 
       - name: Terraform Format Check
-        working-directory: terraform/env/dev
+        working-directory: terraform/envs/dev
         run: terraform fmt -check
 
       - name: Terraform Validate
-        working-directory: terraform/env/dev
+        working-directory: terraform/envs/dev
         run: terraform validate
 
       - name: Terraform Plan
-        working-directory: terraform/env/dev
+        working-directory: terraform/envs/dev
         run: terraform plan
 
       
