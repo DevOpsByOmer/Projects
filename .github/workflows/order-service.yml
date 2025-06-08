@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    uses: ../../../../.github/workflows/reusable-docker.yml@main
+    uses: DevOpsByOmer/Projects/.github/workflows/resuable/reusable-docker.yml@main
     with:
       service_name: order-service
       dockerfile_path: apps/order-service/Dockerfile
