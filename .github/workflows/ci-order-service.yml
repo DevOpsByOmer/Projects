@@ -1,4 +1,4 @@
-name: CI - Order Service
+name: CI&SCAN - Order Service
 
 on:
   workflow_dispatch:   # no indentation needed here; this enables manual trigger
@@ -6,11 +6,11 @@ on:
     paths:
       - "apps/backend-api/order-service/**"
     branches:
-      - master  # or 'main' if that's your branch
+      - main  # or 'main' if that's your branch
 
 jobs:
   build:
-    uses: DevOpsByOmer/Reusable-workflows/.github/workflows/reusable-docker.yml@main
+    uses: DevOpsByOmer/Reusable-workflows/.github/workflows/reusable-docker-ci.yml@main
     with:
       service_name: order-service
       dockerfile_path: apps/backend-api/order-service/Dockerfile

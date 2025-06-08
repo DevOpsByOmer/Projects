@@ -1,0 +1,14 @@
+name: Docker Push - Order Service
+
+on:
+  workflow_dispatch:
+     
+
+jobs:
+  push-image:
+    uses: DevOpsByOmer/Reusable-workflows/.github/workflows/reusable-docker-push.yml@main
+    with:
+      image_name: order-service
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
