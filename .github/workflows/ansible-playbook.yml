@@ -30,7 +30,7 @@ jobs:
     - name: Create dynamic inventory
       run: |
         echo "[ec2]" > ansible/hosts
-        echo "${{ secrets.EC2_HOST }} ansible_user=${{ secrets.EC2_USER }} ansible_ssh_private_key_file=~/.ssh/id_rsa" >> ansible/hosts
+        echo "${{ secrets.EC2_HOST }} ansible_user=${{ secrets.EC2_USER }} ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_ssh_common_args='-o StrictHostKeyChecking=no'" >> ansible/hosts
 
     - name: Run Ansible Playbook
       run: |
