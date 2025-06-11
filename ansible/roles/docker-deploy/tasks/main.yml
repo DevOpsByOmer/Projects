@@ -1,0 +1,36 @@
+- name: Update APT packages
+  apt:
+    update_cache: yes
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker.io
+    - python3-pip
+
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Pull Docker image from Docker Hub
+  docker_image:
+    name: saotech/order-service
+    source: pull
+
+- name: Stop and remove old container (if exists)
+  docker_container:
+    name: order-service
+    state: absent
+    force_kill: true
+
+- name: Run the new Docker container
+  docker_container:
+    name: order-service
+    image: saotech/order-service
+    state: started
+    ports:
+      - "5000:5000"
