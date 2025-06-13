@@ -43,17 +43,17 @@ jobs:
           terraform_version: 1.6.6
 
       - name: Terraform Init
-        run: terraform init -input=false
+        run: terraform init -input=false 
 
       - name: Terraform Plan
-        run: terraform plan -input=false -var-file="terraform.tfvars"
+        run: terraform plan -input=false -var-file="terraform.tfvars" -lock=false
 
       - name: Terraform Apply or Destroy
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.action }}" == "destroy" ]]; then
             echo "🗑️ Running Terraform Destroy..."
-            terraform destroy -auto-approve -input=false -var-file="terraform.tfvars"
+            terraform destroy -auto-approve -input=false -var-file="terraform.tfvars" -lock=false
           else
             echo "🚀 Running Terraform Apply..."
-            terraform apply -auto-approve -input=false -var-file="terraform.tfvars"
+            terraform apply -auto-approve -input=false -var-file="terraform.tfvars" -lock=false
           fi
