@@ -5,7 +5,7 @@ function App() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8000')
+    fetch(`${process.env.REACT_APP_API_URL}/api`)  // ⬅️ Use ENV variable with path
       .then((res) => res.json())
       .then((data) => setMessage(data.message))
       .catch((err) => console.error(err));
@@ -13,8 +13,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Full Stack App</h1>
-      <p>Backend says: {message}</p>
+      <h1>🌐 Full Stack App</h1>
+      <p>🚀 Backend says: <strong>{message}</strong></p>
     </div>
   );
 }
