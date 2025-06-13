@@ -12,7 +12,8 @@ env:
   AWS_REGION: ap-south-1
   ECR_REPO_URI_FRONTEND: 296062587378.dkr.ecr.ap-south-1.amazonaws.com/frontend
   ECR_REPO_URI_BACKEND: 296062587378.dkr.ecr.ap-south-1.amazonaws.com/backend
-  ECS_CLUSTER_NAME: devops-cluster
+  ECS_CLUSTER_NAME_FRONTEND: my-frontend-cluster
+  ECS_CLUSTER_NAME_BACKEND: my-backend-cluster
   ECS_SERVICE_NAME_FRONTEND: frontend-service
   ECS_SERVICE_NAME_BACKEND: backend-service
   IMAGE_TAG: ${{ github.sha }}
@@ -52,7 +53,7 @@ jobs:
       - name: Deploy to ECS (Frontend)
         run: |
           aws ecs update-service \
-            --cluster $ECS_CLUSTER_NAME \
+            --cluster $ECS_CLUSTER_NAME_FRONTEND \
             --service $ECS_SERVICE_NAME_FRONTEND \
             --force-new-deployment
 
@@ -90,6 +91,6 @@ jobs:
       - name: Deploy to ECS (Backend)
         run: |
           aws ecs update-service \
-            --cluster $ECS_CLUSTER_NAME \
+            --cluster $ECS_CLUSTER_NAME_BACKEND  \
             --service $ECS_SERVICE_NAME_BACKEND \
             --force-new-deployment
