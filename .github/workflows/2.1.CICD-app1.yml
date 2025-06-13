@@ -40,7 +40,7 @@ jobs:
       - name: Build Docker image (Frontend)
         run: |
           cd apps/frontend-dashboard/react/
-          docker build -t $ECR_REPO_URI_FRONTEND:$IMAGE_TAG .
+          docker build -t $ECR_REPO_URI_FRONTEND:latest .
 
       - name: Scan image with Trivy (Frontend)
         run: |
@@ -49,7 +49,7 @@ jobs:
 
       - name: Push Docker image to ECR (Frontend)
         run: |
-          docker push $ECR_REPO_URI_FRONTEND:$IMAGE_TAG
+          docker push $ECR_REPO_URI_FRONTEND:latest
 
       - name: Deploy to ECS (Frontend)
         run: |
@@ -78,7 +78,7 @@ jobs:
       - name: Build Docker image (Backend)
         run: |
           cd apps/backend-api/FastAPI/
-          docker build -t $ECR_REPO_URI_BACKEND:$IMAGE_TAG .
+          docker build -t $ECR_REPO_URI_BACKEND:latest .
 
       - name: Scan image with Trivy (Backend)
         run: |
@@ -87,7 +87,7 @@ jobs:
 
       - name: Push Docker image to ECR (Backend)
         run: |
-          docker push $ECR_REPO_URI_BACKEND:$IMAGE_TAG
+          docker push $ECR_REPO_URI_BACKEND:latest
 
       - name: Deploy to ECS (Backend)
         run: |
