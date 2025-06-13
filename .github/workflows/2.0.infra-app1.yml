@@ -1,4 +1,4 @@
-name: Terraform Infra Provisioning
+name: Project-2 Terraform Infra Provisioning
 
 on:
   push:
