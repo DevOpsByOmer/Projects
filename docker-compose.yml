@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./apps/backend-api/FastAPI/
+    ports:
+      - "8000:8000"
+    networks:
+      - app-net
+
+  frontend:
+    build: ./apps/frontend-dashboard/react/
+    ports:
+      - "3000:80"
+    networks:
+      - app-net
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+
+networks:
+  app-net:
+    driver: bridge

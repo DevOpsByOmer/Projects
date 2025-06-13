@@ -1,4 +1,4 @@
-name: Deploy via Ansible
+name: Deploy via Ansible Order-service application
 
 on:
   workflow_dispatch:
