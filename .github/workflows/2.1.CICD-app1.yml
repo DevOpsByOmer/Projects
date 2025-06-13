@@ -1,6 +1,7 @@
 name: CI/CD for Frontend & Backend
 
 on:
+  workflow_dispatch:  
   push:
     paths:
       - 'apps/frontend/**'
