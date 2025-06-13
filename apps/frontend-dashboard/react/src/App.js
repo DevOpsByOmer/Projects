@@ -5,7 +5,7 @@ function App() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api`)  // ⬅️ Use ENV variable with path
+    fetch(`${process.env.REACT_APP_API_URL}/message`)  // ⬅️ Use ENV variable with path
       .then((res) => res.json())
       .then((data) => setMessage(data.message))
       .catch((err) => console.error(err));
