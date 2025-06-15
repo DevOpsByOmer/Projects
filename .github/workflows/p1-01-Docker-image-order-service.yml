@@ -1,4 +1,4 @@
-name: Docker Push - Order Service
+name: Project-1 Docker Push - Order Service
 
 on:
   workflow_dispatch:

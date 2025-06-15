@@ -1,4 +1,4 @@
-name: CI&SCAN - Order Service
+name: Project-1 CI&SCAN - Order Service
 
 on:
   workflow_dispatch:   # no indentation needed here; this enables manual trigger
