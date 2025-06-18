@@ -13,6 +13,7 @@ resource "aws_lb_target_group" "frontend" {
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "ip"
+
   health_check {
     path                = "/"
     protocol            = "HTTP"
@@ -30,6 +31,7 @@ resource "aws_lb_target_group" "backend" {
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "ip"
+
   health_check {
     path                = "/health"
     protocol            = "HTTP"
@@ -56,9 +58,21 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-# 🔁 Backend Listener Rule for FastAPI
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = var.acm_certificate_arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.frontend.arn
+  }
+}
+
 resource "aws_lb_listener_rule" "backend_api" {
-  listener_arn = aws_lb_listener.http.arn
+  listener_arn = aws_lb_listener.https.arn
   priority     = 10
 
   action {
@@ -73,9 +87,8 @@ resource "aws_lb_listener_rule" "backend_api" {
   }
 }
 
-# 🧑‍🎨 Frontend Listener Rule
 resource "aws_lb_listener_rule" "frontend" {
-  listener_arn = aws_lb_listener.http.arn
+  listener_arn = aws_lb_listener.https.arn
   priority     = 20
 
   action {
@@ -90,7 +103,6 @@ resource "aws_lb_listener_rule" "frontend" {
   }
 }
 
-# 🔐 ALB Security Group
 resource "aws_security_group" "alb_sg" {
   name        = "${var.name}-alb-sg"
   description = "Security group for ALB"
@@ -99,6 +111,13 @@ resource "aws_security_group" "alb_sg" {
   ingress {
     from_port   = 80
     to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

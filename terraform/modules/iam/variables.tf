@@ -9,3 +9,7 @@ variable "task_role_name" {
   type        = string
   default     = "ecs-task-role"
 }
+variable "region" {
+  default = "ap-south-1"
+
+}

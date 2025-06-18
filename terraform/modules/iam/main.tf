@@ -12,7 +12,7 @@ resource "aws_iam_role" "execution_role" {
     }]
   })
 }
-
+data "aws_caller_identity" "current" {}
 resource "aws_iam_role_policy_attachment" "execution_policy" {
   role       = aws_iam_role.execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
@@ -52,4 +52,27 @@ resource "aws_iam_role_policy" "custom_task_policy" {
       }
     ]
   })
+}
+resource "aws_iam_policy" "ssm_access" {
+  name = "ecs-ssm-access"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:GetParameterHistory"
+        ],
+        Effect   = "Allow",
+        Resource = "arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:parameter/devops/backend/*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_ssm_policy" {
+  policy_arn = aws_iam_policy.ssm_access.arn
+  role       = aws_iam_role.task_role.name
+
 }

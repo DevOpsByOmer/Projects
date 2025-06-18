@@ -1,0 +1,59 @@
+name: Project-3 Terraform Infra Provisioning
+
+on:
+  push:
+    paths:
+      - 'terraform/envs/prod/app1/**'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Terraform action to perform'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - apply
+          - destroy
+
+jobs:
+  terraform:
+    name: Terraform Plan & Apply/Destroy
+    runs-on: ubuntu-latest
+
+    env:
+      TF_WORKING_DIR: terraform/envs/prod/app1
+      AWS_REGION: ap-south-1
+      AWS_DEFAULT_REGION: ap-south-1
+      # Optional: Remove if you're using OIDC instead of secrets
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Terraform Init
+        run: terraform init -input=false 
+
+      - name: Terraform Plan
+        run: terraform plan -input=false -var-file="terraform.tfvars" -lock=false
+
+      - name: Terraform Apply or Destroy
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.action }}" == "destroy" ]]; then
+            echo "🗑️ Running Terraform Destroy..."
+            terraform destroy -auto-approve -input=false -var-file="terraform.tfvars" -lock=false
+          else
+            echo "🚀 Running Terraform Apply..."
+            terraform apply -auto-approve -input=false -var-file="terraform.tfvars" -lock=false
+          fi

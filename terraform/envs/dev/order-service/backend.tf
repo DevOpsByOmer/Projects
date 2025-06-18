@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "Terraform-central-tf-state-bucketxxs"
-    key            = "envs/dev/order-service/terraform.tfstate" # path inside the bucket
+    bucket         = "terraform-central-tf-state-bucketxxs"     # Shared bucket
+    key            = "envs/dev/order-service/terraform.tfstate" # Unique per project/env
     region         = "ap-south-1"
-    dynamodb_table = "terraform-lock-table"
+    dynamodb_table = "terraform-lock-table" # Shared table
     encrypt        = true
   }
 }
