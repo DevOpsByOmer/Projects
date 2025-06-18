@@ -4,7 +4,7 @@ function App() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/message`)
+    fetch(`${window._env_.REACT_APP_API_URL}/message`)
       .then((res) => res.json())
       .then((data) => setMessage(data.message))
       .catch((err) => console.error(err));
