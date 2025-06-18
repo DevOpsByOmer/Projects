@@ -23,7 +23,6 @@ resource "aws_nat_gateway" "this" {
   depends_on = [aws_internet_gateway.this]
 }
 resource "aws_eip" "nat" {
-  vpc = true
 
   tags = {
     Name = "${var.vpc_name}-nat-eip"

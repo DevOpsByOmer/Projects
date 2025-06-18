@@ -23,3 +23,6 @@ variable "environment_vars" {
   type    = list(map(string))
   default = []
 }
+variable "service_name" {
+
+}
