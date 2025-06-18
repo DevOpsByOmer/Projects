@@ -1,0 +1,97 @@
+name: Project-3 CI/CD for Frontend & Backend
+
+on:
+  workflow_dispatch:  
+  push:
+    paths:
+      - 'apps/frontend-dashboard/react-app/**'
+      - 'apps/backend-api/Fapi-1/**'
+    branches:
+      - main
+
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPO_URI_FRONTEND: 296062587378.dkr.ecr.ap-south-1.amazonaws.com/frontend
+  ECR_REPO_URI_BACKEND: 296062587378.dkr.ecr.ap-south-1.amazonaws.com/backend
+  ECS_CLUSTER_NAME_FRONTEND: my-frontend-cluster
+  ECS_CLUSTER_NAME_BACKEND: my-backend-cluster
+  ECS_SERVICE_NAME_FRONTEND: frontend-service
+  ECS_SERVICE_NAME_BACKEND: backend-service
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  frontend:
+    name: Deploy Frontend App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker image (Frontend)
+        run: |
+          cd apps/frontend-dashboard/react/
+          docker build -t $ECR_REPO_URI_FRONTEND:latest .
+
+      - name: Scan image with Trivy (Frontend)
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+          trivy image --exit-code 1 --severity HIGH,CRITICAL $ECR_REPO_URI_FRONTEND:$IMAGE_TAG || echo "Scan failed or found vulnerabilities"
+
+      - name: Push Docker image to ECR (Frontend)
+        run: |
+          docker push $ECR_REPO_URI_FRONTEND:latest
+
+      - name: Deploy to ECS (Frontend)
+        run: |
+          aws ecs update-service \
+            --cluster $ECS_CLUSTER_NAME_FRONTEND \
+            --service $ECS_SERVICE_NAME_FRONTEND \
+            --force-new-deployment
+
+  backend:
+    name: Deploy Backend App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker image (Backend)
+        run: |
+          cd apps/backend-api/FastAPI/
+          docker build -t $ECR_REPO_URI_BACKEND:latest .
+
+      - name: Scan image with Trivy (Backend)
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+          trivy image --exit-code 1 --severity HIGH,CRITICAL $ECR_REPO_URI_BACKEND:$IMAGE_TAG || echo "Scan failed or found vulnerabilities"
+
+      - name: Push Docker image to ECR (Backend)
+        run: |
+          docker push $ECR_REPO_URI_BACKEND:latest
+
+      - name: Deploy to ECS (Backend)
+        run: |
+          aws ecs update-service \
+            --cluster $ECS_CLUSTER_NAME_BACKEND  \
+            --service $ECS_SERVICE_NAME_BACKEND \
+            --force-new-deployment
