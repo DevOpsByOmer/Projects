@@ -1,6 +1,7 @@
 name: Project 4 - Deploy Docker Images and Update Helm Values
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'apps/frontend-dashboard/react/**'
