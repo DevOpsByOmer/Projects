@@ -1,6 +1,7 @@
 name: Project- 4 Deploying Docker Images to DockerHub
 
 on:
+    workflow_dispatch:
     push:
       paths:
         - 'apps/frontend-dashboard/react/**'
