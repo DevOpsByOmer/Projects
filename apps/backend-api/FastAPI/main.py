@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
 import logging
 
 app = FastAPI(
@@ -7,6 +8,9 @@ app = FastAPI(
     description="Handles API requests for fullstack app",
     version="1.0.0"
 )
+
+# ✅ Add Prometheus Instrumentation
+Instrumentator().instrument(app).expose(app)
 
 # ✅ CORS: Allow frontend to call API from any domain
 app.add_middleware(

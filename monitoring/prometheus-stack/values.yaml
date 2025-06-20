@@ -1,0 +1,57 @@
+grafana:
+  adminUser: admin
+  adminPassword: admin
+
+  # Enable and expose Grafana UI
+  service:
+    type: NodePort
+    port: 80
+
+  # Enable dashboard provisioning
+  dashboards:
+    default:
+      node-exporter:
+        json: |
+          {{- .Files.Get "monitoring/dashboards/node-exporter.json" | nindent 10 }}
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+  # Optional: volume mount dashboards from a configmap (advanced)
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      folder: /var/lib/grafana/dashboards/default
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-operated:9090
+
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+      slack_api_url: 'https://hooks.slack.com/services/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'
+    route:
+      receiver: 'slack-notifications'
+    receivers:
+      - name: 'slack-notifications'
+        slack_configs:
+          - channel: '#alerts'
+            send_resolved: true
