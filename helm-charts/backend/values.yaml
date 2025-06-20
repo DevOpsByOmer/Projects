@@ -1,6 +1,6 @@
 backend:
-  image: saotech/fast-api-app1
-  tag: v1
+  image: k8s_backend
+  tag: f057423abbc92ca609d0d45134c0e2b3b69e7ec2
   replicas: 1
   containerPort: 8000
   servicePort: 8000
