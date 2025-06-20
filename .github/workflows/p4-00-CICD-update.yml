@@ -46,6 +46,9 @@ jobs:
         run: |
           docker tag $F_IMAGE_NAME:$IMAGE_TAG $DOCKERHUB_USERNAME/$F_IMAGE_NAME:$IMAGE_TAG
           docker push $DOCKERHUB_USERNAME/$F_IMAGE_NAME:$IMAGE_TAG
+      - name: Pull latest changes
+        run: |
+         git pull origin main --rebase
 
       - name: Update values.yaml
         run: |
@@ -56,10 +59,10 @@ jobs:
         run: |
           git config --global user.email "ci-bot@github.com"
           git config --global user.name "CI Bot"
-          git pull origin main --rebase
           git add $F_VALUES_FILE
           git commit -m "Update frontend image tag to $IMAGE_TAG" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push origin main
 
   backend:
     name: Deploy Backend Image
@@ -86,6 +89,9 @@ jobs:
         run: |
           docker tag $B_IMAGE_NAME:$IMAGE_TAG $DOCKERHUB_USERNAME/$B_IMAGE_NAME:$IMAGE_TAG
           docker push $DOCKERHUB_USERNAME/$B_IMAGE_NAME:$IMAGE_TAG
+      - name: Pull latest changes
+        run: |
+         git pull origin main --rebase
 
       - name: Update values.yaml
         run: |
@@ -96,7 +102,7 @@ jobs:
         run: |
           git config --global user.email "ci-bot@github.com"
           git config --global user.name "CI Bot"
-          git pull origin main --rebase
           git add $B_VALUES_FILE
           git commit -m "Update backend image tag to $IMAGE_TAG" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push origin main
