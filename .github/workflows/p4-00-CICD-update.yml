@@ -60,6 +60,7 @@ jobs:
                 git config --global user.name "CI Bot"
                 git add helm-charts/frontend/values.yaml
                 git commit -m "Update Docker image tags to $IMAGE_TAG"
+                git remote set-url origin https://x-access-token:${{ secrets.ACCOUNT_TOKEN }}@github.com/DevOpsByOmer/Projects.git
                 git push origin main
               env:
                 GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
@@ -106,6 +107,7 @@ jobs:
                 git config --global user.name "CI Bot"
                 git add helm-charts/backend/values.yaml
                 git commit -m "Update Docker image tags to $IMAGE_TAG"
+                git remote set-url origin https://x-access-token:${{ secrets.ACCOUNT_TOKEN }}@github.com/DevOpsByOmer/Projects.git
                 git push origin main
               env:
                 GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
