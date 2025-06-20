@@ -1,0 +1,14 @@
+frontend:
+  image: saotech/frontend
+  tag: v1
+  replicas: 1
+  containerPort: 80
+  servicePort: 80
+
+ingress:
+  enabled: true
+  hostname: frontend.local
+  servicePort: 80
+  path: /
+
+

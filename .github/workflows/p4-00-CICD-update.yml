@@ -1,0 +1,110 @@
+name: Project- 4 Deploying Docker Images to DockerHub
+
+on:
+    push:
+      paths:
+        - 'apps/frontend-dashboard/react/**'
+        - 'apps/backend-api/FastAPI/**'
+      branches:
+        - main
+env:
+    F_WORKING_DIR: apps/frontend-dashboard/react
+    B_WORKING_DIR: apps/backend-api/FastAPI
+    F_VALUES_FILE: helm-charts/frontend/values.yaml
+    B_VALUES_FILE: helm-charts/backend/values.yaml
+    DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+    DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    F_IMAGE_NAME: k8s_frontend
+    B_IMAGE_NAME: k8s_backend
+    IMAGE_TAG: ${{ github.sha }}
+
+
+jobs:
+
+    frontend:
+        name: deploying frontend image for k8 cluster
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: checkout code
+              uses: actions/checkout@v4
+            
+            - name: setup a Docker Build
+              uses: docker/setup-buildx-action@v3
+            
+            - name: Build image
+              run: |
+               docker build -t $F_IMAGE_NAME:$IMAGE_TAG $F_WORKING_DIR
+
+            - name: Login to DockerHub
+              uses: docker/login-action@v3
+
+              with:
+                 username: ${{ env.DOCKERHUB_USERNAME }}
+                 password: ${{ env.DOCKERHUB_TOKEN }}
+
+            - name: TAG & PUSH
+              run: |
+               docker tag $F_IMAGE_NAME:$IMAGE_TAG $DOCKERHUB_USERNAME/$F_IMAGE_NAME:$IMAGE_TAG
+               docker push $DOCKERHUB_USERNAME/$F_IMAGE_NAME:$IMAGE_TAG
+
+            - name: Update values.yaml for frontend
+              run: |
+                 sed -i "s|^\(\s*image:\s*\).*|\1$F_IMAGE_NAME|" $F_VALUES_FILE
+                 sed -i "s|^\(\s*tag:\s*\).*|\1$IMAGE_TAG|" $F_VALUES_FILE
+
+            - name: Commit and push updated values.yaml
+              run: |
+                git config --global user.email "ci-bot@github.com"
+                git config --global user.name "CI Bot"
+                git add helm-charts/frontend/values.yaml
+                git commit -m "Update Docker image tags to $IMAGE_TAG"
+                git push origin main
+              env:
+                GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
+
+
+
+   
+
+    backend:
+        name: deploying Backedn image for k8 cluster
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: checkout code
+              uses: actions/checkout@v4
+
+            - name: Docker Builder
+              uses: docker/setup-buildx-action@v3
+            
+            - name: Building backend img
+              run: |
+               docker build -t $B_IMAGE_NAME:$IMAGE_TAG $B_WORKING_DIR
+               
+            - name: docker Login Cred
+              uses: docker/login-action@v3
+
+              with:
+                username: ${{ env.DOCKERHUB_USERNAME}}
+                password: ${{ env.DOCKERHUB_TOKEN}}
+
+            - name: TAG & PUSH
+              run: |
+               docker tag $B_IMAGE_NAME:$IMAGE_TAG $DOCKERHUB_USERNAME/$B_IMAGE_NAME:$IMAGE_TAG
+
+            - name: Update values.yaml for backend
+              run: |
+                 sed -i "s|^\(\s*image:\s*\).*|\1$B_IMAGE_NAME|" $B_VALUES_FILE
+                 sed -i "s|^\(\s*tag:\s*\).*|\1$IMAGE_TAG|" $B_VALUES_FILE
+ 
+
+            - name: Commit and push updated values.yaml
+              run: |
+                git config --global user.email "ci-bot@github.com"
+                git config --global user.name "CI Bot"
+                git add helm-charts/backend/values.yaml
+                git commit -m "Update Docker image tags to $IMAGE_TAG"
+                git push origin main
+              env:
+                GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}

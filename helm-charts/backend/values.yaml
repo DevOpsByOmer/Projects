@@ -1,0 +1,13 @@
+backend:
+  image: saotech/fast-api-app1
+  tag: v1
+  replicas: 1
+  containerPort: 8000
+  servicePort: 8000
+
+ingress:
+  enabled: true
+  hostname: backend.local
+  servicePort: 8000
+  path: /
+
