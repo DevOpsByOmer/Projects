@@ -1,6 +1,6 @@
 backend:
   image: k8s_backend
-  tag: f057423abbc92ca609d0d45134c0e2b3b69e7ec2
+  tag: e1f3f3df76851887374816b40876b701e2ac0dec
   replicas: 1
   containerPort: 8000
   servicePort: 8000
