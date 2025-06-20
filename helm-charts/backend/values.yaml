@@ -9,5 +9,5 @@ ingress:
   enabled: true
   hostname: backend.local
   servicePort: 8000
-  path: /
+  path: /docs
 

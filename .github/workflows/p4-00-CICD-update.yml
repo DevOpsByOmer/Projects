@@ -52,7 +52,7 @@ jobs:
 
       - name: Update values.yaml
         run: |
-          sed -i "s|image: .*|image: $F_IMAGE_NAME|" $F_VALUES_FILE
+          sed -i "s|image: .*|image: $DOCKERHUB_USERNAME/$F_IMAGE_NAME|" $F_VALUES_FILE
           sed -i "s|tag: .*|tag: $IMAGE_TAG|" $F_VALUES_FILE
 
       - name: Commit and Push changes
