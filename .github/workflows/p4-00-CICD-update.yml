@@ -95,7 +95,7 @@ jobs:
 
       - name: Update values.yaml
         run: |
-          sed -i "s|image: .*|image: $B_IMAGE_NAME|" $B_VALUES_FILE
+          sed -i "s|image: .*|image: $DOCKERHUB_USERNAME/$B_IMAGE_NAME|" $B_VALUES_FILE
           sed -i "s|tag: .*|tag: $IMAGE_TAG|" $B_VALUES_FILE
 
       - name: Commit and Push changes
