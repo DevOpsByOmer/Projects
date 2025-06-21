@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: your-dockerhub-user/k8s_backend
-  tag: latest
+  tag: cc39fb7443f0cc1a4c34ef2c00c4e79d891f31ad
   pullPolicy: IfNotPresent
 
 service:
