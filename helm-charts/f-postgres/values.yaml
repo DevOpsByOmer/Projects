@@ -1,0 +1,21 @@
+postgresUser: user
+postgresPassword: pass
+postgresDb: mydb
+
+image:
+  repository: postgres
+  tag: "15"
+  pullPolicy: IfNotPresent
+
+postgres:
+  user: user
+  password: pass
+  db: mydb
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 1Gi
+
+service:
+  port: 5432

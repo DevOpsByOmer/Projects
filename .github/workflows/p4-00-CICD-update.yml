@@ -12,8 +12,8 @@ on:
 env:
   F_WORKING_DIR: apps/frontend-dashboard/react
   B_WORKING_DIR: apps/backend-api/FastAPI
-  F_VALUES_FILE: helm-charts/frontend/values.yaml
-  B_VALUES_FILE: helm-charts/backend/values.yaml
+  F_VALUES_FILE: helm-charts/a-frontend/values.yaml
+  B_VALUES_FILE: helm-charts/a-backend/values.yaml
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   F_IMAGE_NAME: k8s_frontend

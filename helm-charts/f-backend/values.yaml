@@ -1,0 +1,53 @@
+replicaCount: 1
+
+image:
+  repository: your-dockerhub-user/k8s_backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+env:
+  # PostgreSQL config
+  - name: POSTGRES_SERVER
+    value: postgres.default.svc.cluster.local
+  - name: POSTGRES_PORT
+    value: "5432"
+  - name: POSTGRES_DB
+    valueFrom:
+      secretKeyRef:
+        name: postgres-secret
+        key: database
+  - name: POSTGRES_USER
+    valueFrom:
+      secretKeyRef:
+        name: postgres-secret
+        key: username
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: postgres-secret
+        key: password
+
+  # Redis support (optional)
+  - name: REDIS_HOST
+    value: redis.default.svc.cluster.local
+  - name: REDIS_PORT
+    value: "6379"
+  - name: REDIS_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: redis-secret
+        key: password
+
+resources: {}
+
+livenessProbe:
+  path: /api/v1/utils/health-check/
+  port: 8000
+
+readinessProbe:
+  path: /api/v1/utils/health-check/
+  port: 8000

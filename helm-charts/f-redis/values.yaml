@@ -1,0 +1,7 @@
+image:
+  repository: redis
+  tag: "7"
+  pullPolicy: IfNotPresent
+
+service:
+  port: 6379
