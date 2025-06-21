@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: your-dockerhub-user/k8s_backend
-  tag: cc39fb7443f0cc1a4c34ef2c00c4e79d891f31ad
+  repository: saotech/k8s_backend_api
+  tag: d7ada6d7c82fec822b7ead4cb59da8e6ea3df5ed
   pullPolicy: IfNotPresent
 
 service:
