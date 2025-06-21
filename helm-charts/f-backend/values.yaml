@@ -12,7 +12,7 @@ service:
 env:
   # PostgreSQL config
   - name: POSTGRES_SERVER
-    value: postgres.default.svc.cluster.local
+    value: postgres.argocd.svc.cluster.local
   - name: POSTGRES_PORT
     value: "5432"
   - name: POSTGRES_DB
@@ -33,7 +33,7 @@ env:
 
   # Redis support (optional)
   - name: REDIS_HOST
-    value: redis.default.svc.cluster.local
+    value: redis.argocd.svc.cluster.local
   - name: REDIS_PORT
     value: "6379"
   - name: REDIS_PASSWORD
