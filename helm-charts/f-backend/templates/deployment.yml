@@ -21,9 +21,18 @@ spec:
           ports:
             - containerPort: {{ .Values.service.port }}
           env:
-            {{- range $key, $val := .Values.env }}
-            - name: {{ $key }}
-              value: "{{ $val }}"
+            {{- range .Values.env }}
+            - name: {{ .name }}
+              {{- if .value }}
+                value: {{ .value | quote }}
+              {{- else if .valueFrom }}
+                valueFrom:
+                  {{- if .valueFrom.secretKeyRef }}
+                  secretKeyRef:
+                    name: {{ .valueFrom.secretKeyRef.name }}
+                    key: {{ .valueFrom.secretKeyRef.key }}
+                  {{- end }}
+              {{- end }}
             {{- end }}
           livenessProbe:
             httpGet:
@@ -37,10 +46,3 @@ spec:
               port: {{ .Values.readinessProbe.port }}
             initialDelaySeconds: 5
             periodSeconds: 5
-            
-                  envFrom:
-          - configMapRef:
-              name: backend-config
-          - secretRef:
-              name: backend-secrets
-
