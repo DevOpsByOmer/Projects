@@ -1,6 +1,6 @@
 frontend:
   image: saotech/k8s_frontend
-  tag: 5bd709498c7814c78d19d14a5afc7a4e7a514add
+  tag: cc39fb7443f0cc1a4c34ef2c00c4e79d891f31ad
   replicas: 1
   containerPort: 80
   servicePort: 80
