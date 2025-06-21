@@ -18,9 +18,6 @@ RUN pip install --no-cache-dir hatchling
 # Copy dependency files early
 COPY pyproject.toml uv.lock alembic.ini /app/
 
-# Copy the .env file into the container (KEY STEP)
-COPY .env /app/.env
-
 # Install dependencies using uv
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync || echo "⚠️ uv failed, continuing..."
