@@ -1,6 +1,6 @@
 image:
   repository: your-dockerhub-user/k8s_frontend
-  tag: latest
+  tag: 3d0f6cbe822b454599583c078c524bca434da0e6
   pullPolicy: IfNotPresent
 
 replicaCount: 1
