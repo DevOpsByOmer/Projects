@@ -1,12 +1,14 @@
 apiVersion: v1
-kind: service
+kind: Service
 metadata:
   name: {{ include "frontend.fullname" . }}
+  labels:
+    app: {{ include "frontend.name" . }}
 spec:
   selector:
     app: {{ include "frontend.name" . }}
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}
-      targetPort: 80
+      targetPort: {{ .Values.service.port }}
   type: {{ .Values.service.type }}
