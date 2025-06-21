@@ -5,13 +5,16 @@ metadata:
   namespace: argocd
 spec:
   project: default
+
   source:
     repoURL: 'https://github.com/DevOpsByOmer/Projects'
     targetRevision: main
-    path: helm-charts/f-frontend
+    path: helm-charts/f-frontend  # ✅ Fixed path
+
   destination:
     server: https://kubernetes.default.svc
     namespace: default
+
   syncPolicy:
     automated:
       prune: true
