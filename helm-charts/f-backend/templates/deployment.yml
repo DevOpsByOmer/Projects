@@ -20,26 +20,30 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.port }}
+
           env:
-{{- range .Values.env }}
+            {{- range .Values.env }}
+            {{- if .value }}
             - name: {{ .name }}
-{{- if .value }}
               value: {{ .value | quote }}
-{{- else if .valueFrom }}
+            {{- else if .valueFrom }}
+            - name: {{ .name }}
               valueFrom:
-{{- if .valueFrom.secretKeyRef }}
+                {{- if .valueFrom.secretKeyRef }}
                 secretKeyRef:
                   name: {{ .valueFrom.secretKeyRef.name | quote }}
                   key: {{ .valueFrom.secretKeyRef.key | quote }}
-{{- end }}
-{{- end }}
-{{- end }}
+                {{- end }}
+            {{- end }}
+            {{- end }}
+
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.path }}
               port: {{ .Values.livenessProbe.port }}
             initialDelaySeconds: 10
             periodSeconds: 10
+
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.path }}
