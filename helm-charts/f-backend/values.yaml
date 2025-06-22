@@ -11,36 +11,28 @@ service:
 
 env:
   # PostgreSQL config
-  - name: POSTGRES_SERVER
-    value: postgres.argocd.svc.cluster.local
-  - name: POSTGRES_PORT
-    value: "5432"
-  - name: POSTGRES_DB
-    valueFrom:
-      secretKeyRef:
-        name: postgres-secret
-        key: database
-  - name: POSTGRES_USER
-    valueFrom:
-      secretKeyRef:
-        name: postgres-secret
-        key: username
-  - name: POSTGRES_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: postgres-secret
-        key: password
+  POSTGRES_SERVER: postgres.argocd.svc.cluster.local
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB:
+    secretKeyRef:
+      name: postgres-secret
+      key: database
+  POSTGRES_USER:
+    secretKeyRef:
+      name: postgres-secret
+      key: username
+  POSTGRES_PASSWORD:
+    secretKeyRef:
+      name: postgres-secret
+      key: password
 
-  # Redis support (optional)
-  - name: REDIS_HOST
-    value: redis.argocd.svc.cluster.local
-  - name: REDIS_PORT
-    value: "6379"
-  - name: REDIS_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: redis-secret
-        key: password
+  # Redis config
+  REDIS_HOST: redis.argocd.svc.cluster.local
+  REDIS_PORT: "6379"
+  REDIS_PASSWORD:
+    secretKeyRef:
+      name: redis-secret
+      key: password
 
 resources: {}
 
