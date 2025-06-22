@@ -20,8 +20,5 @@ ingress:
           pathType: Prefix
   tls: []
 
-env:
-  - name: VITE_API_URL
-    value: http://backend-app-backend.argocd.svc.cluster.local:8000
 
 resources: {}
