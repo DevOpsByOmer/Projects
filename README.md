@@ -455,7 +455,6 @@ project/
 
 ## 🙌 Credits
 
-Absolutely! Here's your plan for **🚀 Project 3: Fullstack App with RDS, HTTPS, Auto-scaling & Secrets** — **converted into a clean GitHub `README.md` format**, perfect for portfolio or repository documentation.
 
 ---
 
@@ -875,7 +874,7 @@ minikube service -n monitoring monitoring-grafana --url
 
 ---
 
-Here's a polished and structured `README.md` section for **Project 5** you can directly use in your GitHub repo:
+
 
 ---
 
