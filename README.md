@@ -212,12 +212,8 @@ This project shows **DevOps engineering skills** in:
 
 
 
-
-Project - 2
-
-
 ```markdown
-# 🚀 DevOps Full-Stack ECS Project
+# Project - 2🚀 DevOps Full-Stack ECS Project
 
 This project demonstrates a **containerized full-stack application** deployed on **AWS ECS Fargate** with a complete **CI/CD pipeline**, using modern DevOps tools.
 
@@ -678,7 +674,6 @@ This project showcases an **end-to-end DevOps pipeline** with:
 
 ---
 
-Here’s your **GitHub README** version of **🚀 Project 4: Enterprise-Grade Fullstack K8s CI/CD with Monitoring**. It's clean, structured, and perfect for your portfolio or repo documentation.
 
 ---
 
