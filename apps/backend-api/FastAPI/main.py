@@ -2,6 +2,23 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
 import logging
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
+trace.set_tracer_provider(
+    TracerProvider(resource=Resource.create({"service.name": "fastapi-backend"}))
+)
+trace.get_tracer_provider().add_span_processor(
+    BatchSpanProcessor(OTLPSpanExporter(endpoint="http://otel-collector.monitoring.svc.cluster.local:4317", insecure=True))
+)
+
+app = FastAPI()
+FastAPIInstrumentor().instrument_app(app)
+
 
 app = FastAPI(
     title="FastAPI Backend",

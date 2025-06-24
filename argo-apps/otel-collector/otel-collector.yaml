@@ -1,23 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: frontend-app
+  name: otel-collector
   namespace: argocd
 spec:
   project: default
-
   source:
-    repoURL: 'https://github.com/DevOpsByOmer/Projects'
-    targetRevision: main
-    path: helm-charts/a-frontend
-
+    repoURL: 'https://github.com/YOUR_USER/YOUR_REPO'
+    path: helm-charts/otel-collector
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
-
+    namespace: monitoring
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true

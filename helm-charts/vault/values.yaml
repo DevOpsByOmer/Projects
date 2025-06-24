@@ -1,0 +1,35 @@
+server:
+  ha:
+    enabled: true
+    replicas: 3
+    customConfig: true
+    config: |
+      ui = true
+
+      listener "tcp" {
+        address     = "0.0.0.0:8200"
+        tls_disable = 1
+      }
+
+      storage "raft" {
+        path    = "/vault/data"
+        node_id = "$(hostname)"
+      }
+
+      seal "awskms" {
+        region     = "ap-south-1"
+        kms_key_id = "2790eea0-55a5-45d0-a120-72e3f08af249"
+      }
+
+      api_addr     = "http://vault.vault.svc:8200"
+      cluster_addr = "http://vault.vault.svc:8201"
+
+  dataStorage:
+    enabled: true
+    storageClass: "standard"
+    accessMode: ReadWriteOnce
+    size: 8Gi
+    
+
+  standalone:
+    enabled: false

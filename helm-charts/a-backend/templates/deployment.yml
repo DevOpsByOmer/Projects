@@ -17,3 +17,9 @@ spec:
           image: {{ .Values.backend.image }}:{{ .Values.backend.tag }}
           ports:
             - containerPort: {{ .Values.backend.containerPort }}
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://otel-collector.monitoring.svc.cluster.local:4317"
+          
+        - name: OTEL_SERVICE_NAME
+          value: "fastapi-backend"
+

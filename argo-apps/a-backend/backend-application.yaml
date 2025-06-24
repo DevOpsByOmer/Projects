@@ -9,11 +9,11 @@ spec:
   source:
     repoURL: 'https://github.com/DevOpsByOmer/Projects'
     targetRevision: main
-    path: helm-charts/backend
+    path: helm-charts/a-backend
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: argocd
 
   syncPolicy:
     automated:

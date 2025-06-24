@@ -1,0 +1,24 @@
+mode: deployment
+
+configMap:
+  create: true
+  name: otel-collector-config
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+    exporters:
+      datadog:
+        api:
+          key: ${DATADOG_API_KEY}
+      otlp/newrelic:
+        endpoint: otlp.nr-data.net:4317
+        headers:
+          api-key: ${NEW_RELIC_API_KEY}
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          exporters: [datadog, otlp/newrelic]
