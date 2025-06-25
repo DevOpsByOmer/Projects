@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: otel-collector
-          image: otel/opentelemetry-collector:0.85.0
+          image: gcr.io/datadoghq/otel-collector
+          tag: latest
           args: ["--config=/etc/otel/config.yaml"]
           volumeMounts:
             - name: otel-config
