@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: otel-collector
-          image: gcr.io/datadoghq/otel-collector:latest
+          image: datadog/otel-collector:latest
           args: ["--config=/etc/otel/config.yaml"]
           volumeMounts:
             - name: otel-config
