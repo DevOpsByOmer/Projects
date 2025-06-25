@@ -1,8 +1,17 @@
 fastapi
 uvicorn
+
+# Prometheus metrics
 prometheus-fastapi-instrumentator
+
+# OpenTelemetry core
 opentelemetry-sdk
 opentelemetry-exporter-otlp
-opentelemetry-instrumentation-fastapi
+
+# Instrumentation framework
 opentelemetry-instrumentation
+
+# Specific instrumentation
+opentelemetry-instrumentation-fastapi
 opentelemetry-instrumentation-requests
+opentelemetry-instrumentation-urllib
