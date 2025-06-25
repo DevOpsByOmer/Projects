@@ -22,3 +22,9 @@ spec:
               value: "http://otel-collector.monitoring.svc.cluster.local:4317"
             - name: OTEL_SERVICE_NAME
               value: "fastapi-backend"
+            - name: OTEL_EXPORTER_OTLP_PROTOCOL
+              value: "grpc"  # ✅ ensure protocol is explicitly set
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: "service.namespace=argocd,service.name=fastapi-backend"
+            - name: OTEL_LOG_LEVEL
+              value: "info"
