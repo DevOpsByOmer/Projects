@@ -2,12 +2,12 @@ name: Project-2 CI/CD for Frontend & Backend
 
 on:
   workflow_dispatch:  
-  push:
-    paths:
-      - 'apps/frontend-dashboard/react/**'
-      - 'apps/backend-api/FastAPI/**'
-    branches:
-      - main
+ # push:
+    #paths:
+     # - 'apps/frontend-dashboard/react/**'
+      #- 'apps/backend-api/FastAPI/**'
+   # branches:
+      #- main
 
 env:
   AWS_REGION: ap-south-1
