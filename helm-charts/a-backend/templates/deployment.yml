@@ -17,9 +17,10 @@ spec:
           image: {{ .Values.backend.image }}:{{ .Values.backend.tag }}
           ports:
             - containerPort: {{ .Values.backend.containerPort }}
-        - name: otel collector endpoint
-          value: "http://otel-collector.monitoring.svc.cluster.local:4317"
+        env:   
+           - name: otel collector endpoint
+             value: "http://otel-collector.monitoring.svc.cluster.local:4317"
           
-        - name: otel service name
-          value: "fastapi-backend"
+           - name: otel service name
+             value: "fastapi-backend"
 
