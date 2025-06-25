@@ -1,5 +1,9 @@
 mode: deployment
 
+image:
+  repository: otel/opentelemetry-collector
+  tag: "0.85.0"
+
 configMap:
   create: true
   name: otel-collector-config
@@ -9,16 +13,24 @@ configMap:
         protocols:
           grpc:
           http:
+
     exporters:
-      datadog:
-        api:
-          key: ${DATADOG_API_KEY}
-      otlp/newrelic:
-        endpoint: otlp.nr-data.net:4317
+      otlphttp/datadog:
+        endpoint: "https://api.datadoghq.com"
+        headers:
+          DD-API-KEY: ${DATADOG_API_KEY}
+
+      otlphttp/newrelic:
+        endpoint: "https://otlp.nr-data.net"
         headers:
           api-key: ${NEW_RELIC_API_KEY}
+
+    processors:
+      batch:
+
     service:
       pipelines:
         traces:
           receivers: [otlp]
-          exporters: [datadog, otlp/newrelic]
+          processors: [batch]
+          exporters: [otlphttp/datadog, otlphttp/newrelic]
