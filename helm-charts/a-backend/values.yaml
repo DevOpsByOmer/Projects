@@ -1,6 +1,6 @@
 backend:
   image: saotech/k8s_backend
-  tag: 35b112d11b94163306fe6c12cf46966b8985a2f6
+  tag: 236f162590a98067e35329e31d6cf32a75821176
   replicas: 1
   containerPort: 8000
   servicePort: 8000
