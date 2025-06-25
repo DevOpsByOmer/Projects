@@ -12,19 +12,23 @@ data:
           grpc:
           http:
 
+    processors:
+      batch:
+
     exporters:
       otlphttp/datadog:
-        endpoint: "https://api.datadoghq.com"
+        endpoint: "https://api.datadoghq.com/api/v2/otel/v1/traces"
         headers:
-          DD-API-KEY: ${DATADOG_API_KEY}
+          DD-API-KEY: {{ .Values.datadog.apiKey }}
 
       otlphttp/newrelic:
-        endpoint: "https://otlp.nr-data.net"
+        endpoint: "https://otlp.nr-data.net/v1/traces"
         headers:
-          api-key: ${NEW_RELIC_API_KEY}
+          api-key: {{ .Values.newrelic.licenseKey }}
 
     service:
       pipelines:
         traces:
           receivers: [otlp]
+          processors: [batch]
           exporters: [otlphttp/datadog, otlphttp/newrelic]
