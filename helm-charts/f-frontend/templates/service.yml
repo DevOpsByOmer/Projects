@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "frontend.fullname" . }}
+  name: nginxservice
   labels:
     app: {{ include "frontend.name" . }}
 spec:
@@ -9,6 +9,6 @@ spec:
     app: {{ include "frontend.name" . }}
   ports:
     - protocol: TCP
-      port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
-  type: {{ .Values.service.type }}
+      port: {{ .Values.service.port }}       # External port
+      targetPort: 80                         # Container port
+  type: {{ .Values.service.type }}           # ClusterIP

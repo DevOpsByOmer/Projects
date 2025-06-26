@@ -19,7 +19,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.port }}
+            - containerPort: 80  # or your actual app port like 3000
           env:
             {{- range .Values.env }}
             - name: {{ .name }}

@@ -1,30 +1,20 @@
-{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "frontend.fullname" . }}
+  name: myingress
+  labels:
+    app: {{ include "frontend.name" . }}
   annotations:
-    {{- range $key, $value := .Values.ingress.annotations }}
-    {{ $key }}: {{ $value | quote }}
-    {{- end }}
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host }}
+    - host: localhost
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            pathType: {{ .pathType }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
-                name: {{ include "frontend.fullname" $ }}
+                name: nginxservice
                 port:
-                  number: {{ $.Values.service.port }}
-          {{- end }}
-    {{- end }}
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- toYaml .Values.ingress.tls | nindent 4 }}
-  {{- end }}
-{{- end }}
+                  number: {{ .Values.service.port }}

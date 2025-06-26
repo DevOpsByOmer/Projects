@@ -10,15 +10,12 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   className: ""
   annotations: {}
   hosts:
-    - host: frontend.local
+    - host: localhost
       paths:
         - path: /
           pathType: Prefix
   tls: []
-
-
-resources: {}
