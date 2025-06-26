@@ -7,7 +7,7 @@ backend:
 
 ingress:
   enabled: true
-  hostname: backend.local
+  hostname: localhost
   servicePort: 8000
   path: /
 
