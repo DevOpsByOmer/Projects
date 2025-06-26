@@ -13,5 +13,5 @@ opentelemetry-instrumentation-fastapi==0.45b0
 opentelemetry-instrumentation-requests==0.45b0
 opentelemetry-instrumentation-urllib==0.45b0
 
-# Dependencies
+# Required dependency
 requests==2.31.0
