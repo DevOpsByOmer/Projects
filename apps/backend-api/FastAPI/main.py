@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
 
+# OpenTelemetry imports
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.resources import Resource
@@ -16,27 +17,31 @@ from opentelemetry.instrumentation.urllib import URLLibInstrumentor
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("backend")
 
-# ✅ Set up tracer provider
+# ✅ Set up tracer provider with resource name
 trace.set_tracer_provider(
-    TracerProvider(resource=Resource.create({"service.name": "fastapi-backend"}))
+    TracerProvider(
+        resource=Resource.create({"service.name": "fastapi-backend"})
+    )
 )
 
-# ✅ Configure OTLP exporter
+# ✅ Configure OTLP trace exporter (to OTEL Collector)
 otlp_exporter = OTLPSpanExporter(
-    endpoint="http://otel-collector.monitoring.svc.cluster.local:4317",
+    endpoint="otel-collector-opentelemetry-collector.observability.svc.cluster.local:4317",
     insecure=True
 )
-trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(otlp_exporter))
+trace.get_tracer_provider().add_span_processor(
+    BatchSpanProcessor(otlp_exporter)
+)
 
-# ✅ Initialize FastAPI + Instrumentor
+# ✅ Initialize FastAPI
 app = FastAPI(title="FastAPI Backend")
-FastAPIInstrumentor().instrument_app(app)
 
-# ✅ Also instrument HTTP clients like requests, urllib
+# ✅ Instrument FastAPI and HTTP clients
+FastAPIInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 URLLibInstrumentor().instrument()
 
-# ✅ Prometheus Metrics
+# ✅ Expose Prometheus metrics
 Instrumentator().instrument(app).expose(app)
 
 # ✅ CORS
@@ -48,6 +53,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ✅ Routes
 @app.get("/")
 def read_root():
     logger.info("✅ GET / called")

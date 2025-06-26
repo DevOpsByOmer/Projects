@@ -1,17 +1,18 @@
-fastapi
-uvicorn
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
 
-# Prometheus metrics
-prometheus-fastapi-instrumentator
+# Prometheus instrumentation
+prometheus_fastapi_instrumentator==6.1.0
 
 # OpenTelemetry core
-opentelemetry-sdk
-opentelemetry-exporter-otlp
+opentelemetry-api==1.25.0
+opentelemetry-sdk==1.25.0
 
-# Instrumentation framework
-opentelemetry-instrumentation
+# OpenTelemetry instrumentations
+opentelemetry-instrumentation==0.46b0
+opentelemetry-instrumentation-fastapi==0.46b0
+opentelemetry-instrumentation-requests==0.46b0
+opentelemetry-instrumentation-urllib==0.46b0
 
-# Specific instrumentation
-opentelemetry-instrumentation-fastapi
-opentelemetry-instrumentation-requests
-opentelemetry-instrumentation-urllib
+# OTLP exporter for GRPC
+opentelemetry-exporter-otlp-proto-grpc==1.25.0

@@ -7,8 +7,7 @@ frontend:
 
 ingress:
   enabled: true
+  className: nginx       # 👈 Optional but recommended for Minikube
   hostname: frontend.local
   servicePort: 80
   path: /
-
-
