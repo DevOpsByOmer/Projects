@@ -26,6 +26,7 @@ venv/
 **/.terraform.lock.hcl
 *.tfstate
 *.tfstate.*
+terraform-key
 #terraform.tfvars
 crash.log
 
